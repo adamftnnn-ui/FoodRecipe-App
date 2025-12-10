@@ -1,0 +1,23 @@
+#Base URL
+https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com
+
+X-RapidAPI-Key: 734e974423msh0deb8b81bbb0357p102b61jsnb747e22182e7
+X-RapidAPI-Host: spoonacular-recipe-food-nutrition-v1.p.rapidapi.com
+
+#Trending Recipes
+GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?sort=popularity&number=10&addRecipeInformation=true
+
+#Random Recipes
+GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=6
+
+#Search/Filter Recipes
+GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query={keyword}&number=20&addRecipeInformation=true&includeNutrition=true
+
+#Example Category: Middle Eastern
+GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=middle+eastern&number=3&addRecipeInformation=true
+
+#Recipe Detail
+GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/{id}/information?includeNutrition=true
+
+#Chat AI
+GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/converse?text={message}&contextId={id}

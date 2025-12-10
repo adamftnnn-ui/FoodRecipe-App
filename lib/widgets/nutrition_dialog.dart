@@ -39,7 +39,7 @@ class _NutritionDialogState extends State<NutritionDialog> {
         children: [
           TextField(
             controller: _labelController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Label (e.g., Calories)',
               border: OutlineInputBorder(),
             ),
@@ -47,7 +47,7 @@ class _NutritionDialogState extends State<NutritionDialog> {
           const SizedBox(height: 10),
           TextField(
             controller: _valueController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Value (e.g., 200 kcal)',
               border: OutlineInputBorder(),
             ),

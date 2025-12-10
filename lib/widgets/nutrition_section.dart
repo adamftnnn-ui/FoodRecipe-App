@@ -21,7 +21,7 @@ class NutritionSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Nutrisi',
+            'Nutrition Facts',
             style: GoogleFonts.poppins(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -35,7 +35,7 @@ class NutritionSection extends StatelessWidget {
               1: FlexColumnWidth(1.2),
             },
             border: TableBorder.symmetric(
-              inside: BorderSide(color: Colors.grey[300]!, width: 0.4),
+              inside: BorderSide(color: Colors.grey, width: 0.4),
             ),
             children: nutrition.entries.map((e) {
               return TableRow(

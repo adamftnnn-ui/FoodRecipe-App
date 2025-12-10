@@ -24,7 +24,7 @@ class HeaderSection extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Belum ada gambar',
+            'No image',
             style: GoogleFonts.poppins(fontSize: 11, color: Colors.grey[500]),
             textAlign: TextAlign.center,
           ),
@@ -131,12 +131,12 @@ class HeaderSection extends StatelessWidget {
                   children: [
                     _InfoItem(
                       icon: HugeIcons.strokeRoundedClock01,
-                      text: '${recipe.readyInMinutes} Menit',
+                      text: '${recipe.readyInMinutes} Minutes',
                     ),
                     const SizedBox(width: 8),
                     _InfoItem(
                       icon: HugeIcons.strokeRoundedRiceBowl01,
-                      text: '${recipe.servings} Porsi',
+                      text: '${recipe.servings} Servings',
                     ),
                   ],
                 ),

@@ -44,7 +44,7 @@ class _NutritionEditableState extends State<NutritionEditable> {
             children: [
               Expanded(
                 child: Text(
-                  'Nutrisi',
+                  'Nutrition',
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -72,7 +72,7 @@ class _NutritionEditableState extends State<NutritionEditable> {
           const SizedBox(height: 12),
           if (widget.nutritions.isEmpty)
             Text(
-              'Belum ada item',
+              'No nutrition added',
               style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[500]),
             )
           else

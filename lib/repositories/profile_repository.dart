@@ -3,10 +3,6 @@ import 'package:http/http.dart' as http;
 
 import '../models/user_model.dart';
 
-/// Repository untuk profil user.
-///
-/// Mengambil data user dari REST API publik (JSONPlaceholder).
-/// Jika gagal, fallback ke data lokal supaya aplikasi tetap stabil.
 class ProfileRepository {
   final http.Client _client;
 

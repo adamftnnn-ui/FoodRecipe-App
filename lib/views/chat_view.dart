@@ -97,7 +97,7 @@ class _ChatViewState extends State<ChatView> {
             ),
             SearchBarr(
               enableNavigation: false,
-              placeholder: 'Ketik pertanyaanmu disini...',
+              placeholder: 'Type your question here...',
               controller: _inputController,
               onSubmitted: _sendMessage,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),

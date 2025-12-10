@@ -48,7 +48,7 @@ class _MultiLineDialogState extends State<MultiLineDialog> {
         maxLines: 5,
         decoration: InputDecoration(
           hintText: widget.hint,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
       ),
       actions: [

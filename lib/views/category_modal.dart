@@ -16,7 +16,7 @@ class CategoryModal extends StatelessWidget {
 
   IconData _getIcon(String title, String item) {
     switch (title) {
-      case 'Negara':
+      case 'Country':
         return HugeIcons.strokeRoundedEarth;
       case 'Halal':
         return HugeIcons.strokeRoundedHalal;
@@ -31,18 +31,18 @@ class CategoryModal extends StatelessWidget {
           default:
             return HugeIcons.strokeRoundedHealth;
         }
-      case 'Hidangan':
+      case 'Dish':
         switch (item.toLowerCase()) {
-          case 'utama':
+          case 'main course':
             return HugeIcons.strokeRoundedPlate;
-          case 'pembuka':
+          case 'appetizer':
             return HugeIcons.strokeRoundedSpoonAndFork;
-          case 'penutup':
+          case 'dessert':
             return HugeIcons.strokeRoundedCheeseCake01;
           default:
             return HugeIcons.strokeRoundedPlate;
         }
-      case 'Acara':
+      case 'Occasion':
         return HugeIcons.strokeRoundedCalendar01;
       default:
         return HugeIcons.strokeRoundedCircle;

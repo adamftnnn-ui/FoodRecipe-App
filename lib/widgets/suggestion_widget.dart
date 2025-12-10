@@ -23,7 +23,6 @@ class SuggestionWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             final label = suggestions[index];
 
-            // Ambil hanya 2 kata pertama untuk chip
             final shortLabel = label
                 .trim()
                 .split(RegExp(r'\s+'))

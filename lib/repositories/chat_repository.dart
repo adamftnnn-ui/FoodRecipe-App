@@ -1,26 +1,8 @@
 import '../services/api_service.dart';
 
-/// Repository khusus untuk fitur chat.
-///
-/// Tugas:
-/// - Mengelola contextId supaya percakapan nyambung.
-/// - Memanggil endpoint /food/converse dari Spoonacular.
-/// - Menyediakan helper mengambil detail resep dari query.
 class ChatRepository {
-  /// ID konteks percakapan dengan chatbot.
-  /// 1 contextId per sesi percakapan.
   String? _contextId;
 
-  /// Ambil DETAIL resep berdasarkan teks pertanyaan user.
-  ///
-  /// Langkah:
-  /// 1. Panggil recipes/complexSearch untuk dapatkan id resep.
-  /// 2. Panggil recipes/{id}/information?includeNutrition=true
-  ///    untuk dapatkan detail lengkap.
-  ///
-  /// Return:
-  ///  - Map detail resep (title, ingredients, instructions, dll) jika sukses.
-  ///  - null jika gagal / tidak ada hasil.
   Future<Map<String, dynamic>?> getRecipeDetailFromQuery(String query) async {
     final String q = Uri.encodeQueryComponent(query);
     final String searchEndpoint =
@@ -42,19 +24,11 @@ class ChatRepository {
 
     if (id == null) return null;
 
-    // Ambil detail resep lengkap
     final Map<String, dynamic>? detail = await ApiService.getRecipeDetail(id);
     return detail;
   }
 
-  /// Kirim pesan ke chatbot Spoonacular dan ambil jawaban teksnya.
-  ///
-  /// - [userMessage]: pesan dari user.
-  /// - Mengembalikan String jawaban untuk ditampilkan di UI.
-  ///
-  /// Melempar Exception jika terjadi error jaringan / server.
   Future<String> getConverseReply(String userMessage) async {
-    // Inisialisasi contextId kalau belum ada
     _contextId ??= DateTime.now().millisecondsSinceEpoch.toString();
 
     final Map<String, dynamic>? response =
@@ -62,11 +36,10 @@ class ChatRepository {
 
     if (response == null) {
       throw Exception(
-        'Gagal menghubungi server Spoonacular. Periksa koneksi atau limit API.',
+        'Failed to contact Spoonacular server. Please check your connection or API limit.',
       );
     }
 
-    // Perbarui contextId kalau API mengembalikan yang baru
     final dynamic contextFromResponse =
         response['contextId'] ?? response['conversationId'] ?? response['id'];
 
@@ -76,7 +49,6 @@ class ChatRepository {
       _contextId = contextFromResponse.toString();
     }
 
-    // Cari teks jawaban di beberapa kemungkinan field
     String? answer;
     if (response['answerText'] != null) {
       answer = response['answerText'].toString();
@@ -88,16 +60,14 @@ class ChatRepository {
       answer = response['output'].toString();
     }
 
-    // Fallback kalau tidak ada teks yang jelas
     if (answer == null || answer.trim().isEmpty) {
       answer =
-          'Maaf, aku belum mendapatkan jawaban dari chatbot Spoonacular. Coba tanyakan dengan kalimat lain.';
+          'Sorry, I did not get a response from the Spoonacular chatbot. Please try asking in a different way.';
     }
 
     return answer;
   }
 
-  /// Reset percakapan (kalau nanti mau dipakai tombol "mulai baru").
   void resetConversation() {
     _contextId = null;
   }

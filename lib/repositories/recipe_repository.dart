@@ -3,13 +3,10 @@ import '../services/api_service.dart';
 import '../services/halal_checker.dart';
 
 class RecipeRepository {
-  // Cache sederhana supaya tidak terus-menerus memanggil API
   List<String>? _suggestionCache;
   List<RecipeModel>? _trendingCache;
 
-  /// Suggestion untuk search: ambil beberapa resep random dari API
   Future<List<String>> fetchSuggestions() async {
-    // Kalau sudah pernah ambil dan masih ada di cache → langsung pakai
     if (_suggestionCache != null) {
       return _suggestionCache!;
     }
@@ -29,24 +26,16 @@ class RecipeRepository {
       return suggestions;
     }
 
-    // Fallback kalau API gagal / rate limit (supaya UI tetap hidup)
     return <String>['Chicken', 'Pasta', 'Salad', 'Soup', 'Rice', 'Burger'];
   }
 
-  /// Trending recipes
-  ///
-  /// 1. Coba pakai complexSearch sort=popularity
-  /// 2. Kalau gagal / kosong, fallback ke recipes/random
-  /// 3. Simpan ke cache supaya tidak hit API terus
   Future<List<RecipeModel>> fetchTrendingRecipes() async {
-    // Kalau sudah ada di cache dan tidak kosong → pakai cache saja
     if (_trendingCache != null && _trendingCache!.isNotEmpty) {
       return _trendingCache!;
     }
 
     List<RecipeModel> parsed = <RecipeModel>[];
 
-    // --- 1. Coba ambil dari complexSearch (truly "trending") ---
     const String endpoint =
         'recipes/complexSearch?sort=popularity&number=10&addRecipeInformation=true';
 
@@ -59,7 +48,6 @@ class RecipeRepository {
       }).toList();
     }
 
-    // --- 2. Kalau masih kosong (gagal / rate-limit / 0 hasil), fallback ke random ---
     if (parsed.isEmpty) {
       final Map<String, dynamic>? randomResult = await ApiService.getData(
         'recipes/random?number=10',
@@ -73,13 +61,10 @@ class RecipeRepository {
       }
     }
 
-    // --- 3. Simpan ke cache (boleh kosong, tapi minimal sudah dicoba) ---
     _trendingCache = parsed;
     return parsed;
   }
 
-  /// Filter/search recipes berdasarkan kata kunci
-  /// Ini yang dipakai RecipeListView untuk menampilkan daftar resep
   Future<List<Map<String, dynamic>>> fetchRecipesByFilter(String filter) async {
     if (filter.trim().isEmpty) return <Map<String, dynamic>>[];
 
@@ -99,7 +84,6 @@ class RecipeRepository {
           country = cuisines.first.toString();
         }
 
-        // Ambil ingredients kalau ada
         final List extIng = item['extendedIngredients'] as List? ?? <dynamic>[];
         final List<String> ingredientNames = extIng.map<String>((ing) {
           if (ing is Map) {
@@ -110,7 +94,6 @@ class RecipeRepository {
           return ing.toString().toLowerCase();
         }).toList();
 
-        // 🔹 Kumpulkan semua teks yang mau dicek (ingredients + title + summary)
         final List<String> textsToCheck = <String>[
           ...ingredientNames,
           (item['title'] ?? '').toString(),
@@ -120,12 +103,11 @@ class RecipeRepository {
         final bool isHalal = checkHalalStatus(textsToCheck);
 
         final num? spoonScore = item['spoonacularScore'] as num?;
-        final double rating =
-            4.0 + (spoonScore ?? 80) / 20.0; // skala rating untuk UI
+        final double rating = 4.0 + (spoonScore ?? 80) / 20.0;
 
         return <String, dynamic>{
           'id': item['id'],
-          'title': item['title'] ?? 'Tanpa Judul',
+          'title': item['title'] ?? 'Untitled Recipe',
           'image': item['image'] ?? '',
           'country': country,
           'isHalal': isHalal,

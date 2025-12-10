@@ -5,11 +5,9 @@ import '../repositories/recipe_repository.dart';
 class TrendingRecipeController {
   final RecipeRepository repository = RecipeRepository();
 
-  /// List resep trending
   final ValueNotifier<List<RecipeModel>> trendingRecipes =
       ValueNotifier<List<RecipeModel>>([]);
 
-  /// State tambahan agar rapi (opsional dipakai di UI)
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
   final ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
 

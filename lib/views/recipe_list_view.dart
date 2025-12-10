@@ -22,7 +22,7 @@ class RecipeListView extends StatefulWidget {
   const RecipeListView({
     super.key,
     required this.initialKeyword,
-    this.title = 'Daftar Resep',
+    this.title = 'Recipe List',
     this.recipes,
     this.showDelete = false,
     this.profileController,
@@ -59,23 +59,22 @@ class _RecipeListViewState extends State<RecipeListView>
   Future<void> _deleteRecipe(int index) async {
     if (!(widget.showDelete && widget.profileController != null)) return;
 
-    // Dialog konfirmasi
     final bool? confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          title: const Text('Hapus resep?'),
+          title: const Text('Delete recipe?'),
           content: const Text(
-            'Yakin ingin menghapus resep ini? Tindakan ini tidak bisa dibatalkan.',
+            'Are you sure you want to delete this recipe? This action cannot be undone.',
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Batal'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Hapus', style: TextStyle(color: Colors.red)),
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
             ),
           ],
         );
@@ -84,14 +83,12 @@ class _RecipeListViewState extends State<RecipeListView>
 
     if (confirm == true) {
       widget.profileController!.removeRecipeAt(index);
-      // UI otomatis update karena pakai ValueListenableBuilder
     }
   }
 
   void _editRecipe(int index) {
     if (widget.profileController == null) return;
 
-    // Ambil resep TERKINI dari ProfileController, bukan dari widget.recipes
     final List<Map<String, dynamic>> currentRecipes =
         widget.profileController!.userRecipes.value;
     if (index < 0 || index >= currentRecipes.length) return;
@@ -128,7 +125,6 @@ class _RecipeListViewState extends State<RecipeListView>
         ),
       ),
     );
-    // Tidak butuh then(setState) karena ProfileController pakai ValueNotifier
   }
 
   void _openDetail(dynamic raw) {
@@ -169,8 +165,8 @@ class _RecipeListViewState extends State<RecipeListView>
               const SizedBox(height: 14),
               Text(
                 widget.initialKeyword.isEmpty
-                    ? 'Belum ada resep'
-                    : 'Tidak ada resep untuk "${widget.initialKeyword}"',
+                    ? 'No recipes yet'
+                    : 'No recipes for "${widget.initialKeyword}"',
                 style: GoogleFonts.poppins(
                   fontSize: 15,
                   color: theme.colorScheme.error,
@@ -208,9 +204,8 @@ class _RecipeListViewState extends State<RecipeListView>
               final map = raw;
 
               image = (map['image'] ?? '').toString();
-              title = (map['title'] ?? 'Tanpa Judul').toString();
+              title = (map['title'] ?? 'Untitled').toString();
 
-              // Halal dari map
               final dynamic halalVal =
                   map['isHalal'] ?? map['halal'] ?? map['is_halal'];
               if (halalVal is bool) {
@@ -223,7 +218,6 @@ class _RecipeListViewState extends State<RecipeListView>
                 isHalal = true;
               }
 
-              // Country + fallback dari cuisines
               dynamic countryVal = map['country'];
               if (countryVal == null || countryVal.toString().trim().isEmpty) {
                 final cuisines = map['cuisines'];
@@ -231,7 +225,7 @@ class _RecipeListViewState extends State<RecipeListView>
                   countryVal = cuisines.first.toString();
                 }
               }
-              country = (countryVal ?? 'Tidak Diketahui').toString();
+              country = (countryVal ?? 'Unknown').toString();
 
               readyInMinutes =
                   (map['readyInMinutes'] ?? map['ready_time'] ?? '-')
@@ -257,9 +251,9 @@ class _RecipeListViewState extends State<RecipeListView>
               rating = r.rating;
             } else {
               image = '';
-              title = 'Tanpa Judul';
+              title = 'Untitled';
               isHalal = true;
-              country = 'Tidak Diketahui';
+              country = 'Unknown';
               readyInMinutes = '-';
               servings = '-';
               rating = 4.5;
@@ -358,7 +352,6 @@ class _RecipeListViewState extends State<RecipeListView>
               child: FadeTransition(
                 opacity: _fadeIn,
                 child: isMyRecipes
-                    // 🔹 Mode "Resepku" → langsung dengar ke userRecipes
                     ? ValueListenableBuilder<List<Map<String, dynamic>>>(
                         valueListenable: widget.profileController!.userRecipes,
                         builder: (context, recipes, _) {
@@ -370,7 +363,6 @@ class _RecipeListViewState extends State<RecipeListView>
                           );
                         },
                       )
-                    // 🔹 Mode normal (search / API)
                     : FutureBuilder<List<dynamic>>(
                         future: widget.recipes != null
                             ? Future.value(widget.recipes)

@@ -75,7 +75,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                         return Container(
                           color: Colors.grey[200],
                           alignment: Alignment.center,
-                          child: const Text('Banner tidak tersedia'),
+                          child: const Text('Banner not available'),
                         );
                       },
                     ),

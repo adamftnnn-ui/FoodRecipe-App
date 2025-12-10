@@ -32,15 +32,15 @@ class RecipeModel {
   factory RecipeModel.fromJson(Map<String, dynamic> json) {
     return RecipeModel(
       id: json['id'] is int
-          ? json['id'] as int
+          ? json['id']
           : int.tryParse(json['id']?.toString() ?? '') ?? 0,
-      image: (json['image'] as String?) ?? '',
-      title: (json['title'] as String?) ?? 'Tanpa Judul',
-      country: (json['country'] as String?) ?? 'Global',
-      isHalal: (json['isHalal'] as bool?) ?? true,
+      image: json['image'] ?? '',
+      title: json['title'] ?? 'Untitled Recipe',
+      country: json['country'] ?? 'Global',
+      isHalal: json['isHalal'] ?? true,
       readyInMinutes: json['readyInMinutes']?.toString() ?? '-',
       servings: json['servings']?.toString() ?? '-',
-      rating: json['rating'] is num ? (json['rating'] as num).toDouble() : 4.5,
+      rating: json['rating'] is num ? (json['rating']).toDouble() : 4.5,
       ingredients:
           (json['ingredients'] as List<dynamic>?)
               ?.map((e) => e.toString())
@@ -51,7 +51,7 @@ class RecipeModel {
               ?.map((e) => e.toString())
               .toList() ??
           const <String>[],
-      nutrition: (json['nutrition'] as Map?) != null
+      nutrition: json['nutrition'] is Map
           ? Map<String, String>.from(
               (json['nutrition'] as Map).map(
                 (key, value) => MapEntry(key.toString(), value.toString()),
@@ -84,7 +84,7 @@ class RecipeModel {
       return const RecipeModel(
         id: 0,
         image: '',
-        title: 'Tanpa Judul',
+        title: 'Untitled Recipe',
         country: 'Global',
         isHalal: true,
         readyInMinutes: '-',
@@ -97,13 +97,13 @@ class RecipeModel {
       );
     }
 
-    final Map<String, dynamic> map = (m is Map<String, dynamic>)
+    final Map<String, dynamic> map = m is Map<String, dynamic>
         ? m
         : <String, dynamic>{};
 
     String extractImage() {
-      final image = map['image'];
-      if (image is String && image.isNotEmpty) return image;
+      final img = map['image'];
+      if (img is String && img.isNotEmpty) return img;
 
       final images = map['images'];
       if (images is List && images.isNotEmpty) {
@@ -113,9 +113,9 @@ class RecipeModel {
     }
 
     List<String> parseIngredients() {
-      final extended = map['extendedIngredients'];
-      if (extended is List) {
-        return extended
+      final ext = map['extendedIngredients'];
+      if (ext is List) {
+        return ext
             .map((e) {
               if (e is Map &&
                   (e['originalString'] != null || e['original'] != null)) {
@@ -131,6 +131,7 @@ class RecipeModel {
       if (basic is List) {
         return basic.map((e) => e.toString()).toList();
       }
+
       return <String>[];
     }
 
@@ -140,7 +141,7 @@ class RecipeModel {
         final steps = <String>[];
         for (final part in analyzed) {
           if (part is Map && part['steps'] is List) {
-            for (final s in part['steps'] as List) {
+            for (final s in part['steps']) {
               if (s is Map && s['step'] != null) {
                 steps.add(s['step'].toString());
               }
@@ -150,9 +151,9 @@ class RecipeModel {
         return steps;
       }
 
-      final rawInstructions = map['instructions'];
-      if (rawInstructions is String) {
-        return rawInstructions
+      final raw = map['instructions'];
+      if (raw is String) {
+        return raw
             .split(RegExp(r'\n+|(?<=\.)\s+'))
             .map((s) => s.trim())
             .where((s) => s.isNotEmpty)
@@ -167,13 +168,12 @@ class RecipeModel {
       final nutrition = map['nutrition'];
 
       if (nutrition is Map && nutrition['nutrients'] is List) {
-        for (final n in nutrition['nutrients'] as List) {
+        for (final n in nutrition['nutrients']) {
           if (n is Map &&
               n['name'] != null &&
               n['amount'] != null &&
               n['unit'] != null) {
-            result[n['name'].toString()] =
-                '${n['amount'].toString()} ${n['unit'].toString()}';
+            result[n['name']] = '${n['amount']} ${n['unit']}';
           }
         }
       } else if (nutrition is Map) {
@@ -191,7 +191,7 @@ class RecipeModel {
         : (map['country']?.toString() ?? 'Global');
 
     final ingredients = parseIngredients();
-    final isHalal = checkHalalStatus(ingredients);
+    final halal = checkHalalStatus(ingredients);
 
     final ready =
         map['readyInMinutes']?.toString() ??
@@ -203,18 +203,18 @@ class RecipeModel {
 
     final rating = map['spoonacularScore'] is num
         ? (map['spoonacularScore'] as num).toDouble() / 20.0 + 3.0
-        : (map['rating'] is num ? (map['rating'] as num).toDouble() : 4.5);
+        : (map['rating'] is num ? (map['rating']).toDouble() : 4.5);
 
     final id = map['id'] is int
-        ? map['id'] as int
+        ? map['id']
         : int.tryParse(map['id']?.toString() ?? '') ?? 0;
 
     return RecipeModel(
       id: id,
       image: extractImage(),
-      title: map['title']?.toString() ?? 'Tanpa Judul',
+      title: map['title']?.toString() ?? 'Untitled Recipe',
       country: country,
-      isHalal: isHalal,
+      isHalal: halal,
       readyInMinutes: ready,
       servings: servings,
       rating: rating,

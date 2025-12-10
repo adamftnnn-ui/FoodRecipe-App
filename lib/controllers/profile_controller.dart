@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class ProfileController {
   final ValueNotifier<Map<String, dynamic>> userNotifier =
       ValueNotifier(<String, dynamic>{
-        'name': 'Nama User',
+        'name': 'User Name',
         'country': 'Indonesia',
-        'gender': 'Laki-laki',
+        'gender': 'Male',
         'avatarUrl': '',
         'uploads': 0,
       });

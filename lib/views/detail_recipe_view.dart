@@ -45,7 +45,7 @@ class _DetailRecipeViewState extends State<DetailRecipeView> {
     }
 
     if (error != null) {
-      return Scaffold(body: Center(child: Text("Gagal memuat: $error")));
+      return Scaffold(body: Center(child: Text('Failed to load: $error')));
     }
 
     final recipe = controller.recipe;
@@ -55,7 +55,6 @@ class _DetailRecipeViewState extends State<DetailRecipeView> {
       body: SafeArea(
         child: Column(
           children: [
-            // ... header bar PUNYA KAMU TADI (tidak diubah)
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
               child: Row(
@@ -87,7 +86,7 @@ class _DetailRecipeViewState extends State<DetailRecipeView> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Detail Resep',
+                        'Recipe Detail',
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -101,7 +100,6 @@ class _DetailRecipeViewState extends State<DetailRecipeView> {
                 ],
               ),
             ),
-
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),

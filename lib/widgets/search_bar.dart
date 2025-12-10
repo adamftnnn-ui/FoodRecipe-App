@@ -116,7 +116,8 @@ class _SearchBarrState extends State<SearchBarr> {
                       ),
                       decoration: InputDecoration(
                         hintText:
-                            widget.placeholder ?? 'Cari resep atau bahan...',
+                            widget.placeholder ??
+                            'Search recipes or ingredients...',
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 13.5,
                           color: Colors.grey[500],
@@ -165,10 +166,7 @@ class _SearchBarrState extends State<SearchBarr> {
               ],
             ),
             child: GestureDetector(
-              onTap: () {
-                // Placeholder untuk voice search / mic
-                // print("Mic/Voice search activated!");
-              },
+              onTap: () {},
               child: Icon(
                 HugeIcons.strokeRoundedMic01,
                 color: Colors.grey[700],

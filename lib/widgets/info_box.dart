@@ -66,12 +66,12 @@ class InfoBox extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Belum ada gambar',
+            'No image yet',
             style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[500]),
           ),
           const SizedBox(height: 2),
           Text(
-            'Tap untuk tambah gambar',
+            'Tap to add image',
             style: GoogleFonts.poppins(fontSize: 11, color: Colors.grey[400]),
           ),
         ],
@@ -131,7 +131,7 @@ class InfoBox extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Judul Resep',
+            'Recipe Title',
             style: GoogleFonts.poppins(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class InfoBox extends StatelessWidget {
           const SizedBox(height: 4),
           TextField(
             controller: titleController,
-            decoration: _inputDecoration('Judul resep kamu...').copyWith(
+            decoration: _inputDecoration('Your recipe title...').copyWith(
               prefixIcon: Icon(
                 HugeIcons.strokeRoundedBookOpen01,
                 size: 18,
@@ -153,13 +153,12 @@ class InfoBox extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              // Negara
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Negara',
+                      'Country',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -169,7 +168,7 @@ class InfoBox extends StatelessWidget {
                     const SizedBox(height: 4),
                     DropdownButtonFormField<String>(
                       isExpanded: true,
-                      decoration: _inputDecoration('Negara').copyWith(
+                      decoration: _inputDecoration('Country').copyWith(
                         prefixIcon: Icon(
                           HugeIcons.strokeRoundedEarth,
                           size: 18,
@@ -200,7 +199,6 @@ class InfoBox extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              // Label Halal
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,13 +260,12 @@ class InfoBox extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              // Durasi
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Durasi',
+                      'Duration',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -285,7 +282,7 @@ class InfoBox extends StatelessWidget {
                           size: 18,
                           color: Colors.grey[500],
                         ),
-                        suffixText: 'Menit',
+                        suffixText: 'Minutes',
                         suffixStyle: GoogleFonts.poppins(
                           color: Colors.grey[500],
                           fontSize: 13.5,
@@ -297,13 +294,12 @@ class InfoBox extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              // Porsi
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Porsi',
+                      'Servings',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -320,7 +316,7 @@ class InfoBox extends StatelessWidget {
                           size: 18,
                           color: Colors.grey[500],
                         ),
-                        suffixText: 'Porsi',
+                        suffixText: 'Servings',
                         suffixStyle: GoogleFonts.poppins(
                           color: Colors.grey[500],
                           fontSize: 13.5,

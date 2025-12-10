@@ -47,7 +47,7 @@ class ProfileView extends StatelessWidget {
                   color: Colors.grey[50],
                   alignment: Alignment.center,
                   child: Text(
-                    'Tidak ada gambar',
+                    'No image',
                     style: GoogleFonts.poppins(
                       fontSize: 11,
                       color: Colors.grey[500],
@@ -61,7 +61,7 @@ class ProfileView extends StatelessWidget {
                 children: [
                   Center(
                     child: Text(
-                      'Profil',
+                      'Profile',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -169,7 +169,7 @@ class ProfileView extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        '${controller.userRecipes.value.length} Posting',
+                                        '${controller.userRecipes.value.length} Posts',
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           color: Colors.grey[500],
@@ -192,19 +192,19 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildSectionTitle('Personalisasi'),
+                  _buildSectionTitle('Personalization'),
                   const SizedBox(height: 8),
                   _buildMenuCard(context, [
                     {
                       'icon': HugeIcons.strokeRoundedRiceBowl01,
-                      'title': 'Resepku',
+                      'title': 'My Recipes',
                       'onTap': () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => RecipeListView(
                               initialKeyword: '',
-                              title: 'Daftar Resepku',
+                              title: 'My Recipes',
                               recipes: controller.userRecipes.value,
                               showDelete: true,
                               profileController: controller,
@@ -215,32 +215,35 @@ class ProfileView extends StatelessWidget {
                     },
                     {
                       'icon': HugeIcons.strokeRoundedBookmark01,
-                      'title': 'Simpanan',
+                      'title': 'Saved',
                     },
-                    {'icon': HugeIcons.strokeRoundedStar, 'title': 'Penilaian'},
+                    {'icon': HugeIcons.strokeRoundedStar, 'title': 'Ratings'},
                   ]),
                   const SizedBox(height: 20),
-                  _buildSectionTitle('Pengaturan'),
+                  _buildSectionTitle('Settings'),
                   const SizedBox(height: 8),
                   _buildMenuCard(context, [
-                    {'icon': HugeIcons.strokeRoundedProfile, 'title': 'Akun'},
-                    {'icon': HugeIcons.strokeRoundedEarth, 'title': 'Bahasa'},
+                    {
+                      'icon': HugeIcons.strokeRoundedProfile,
+                      'title': 'Account',
+                    },
+                    {'icon': HugeIcons.strokeRoundedEarth, 'title': 'Language'},
                     {
                       'icon': HugeIcons.strokeRoundedNotification01,
-                      'title': 'Notifikasi',
+                      'title': 'Notifications',
                     },
                     {
                       'icon': HugeIcons.strokeRoundedMoon01,
-                      'title': 'Mode Gelap',
+                      'title': 'Dark Mode',
                     },
                   ]),
                   const SizedBox(height: 20),
-                  _buildSectionTitle('Bantuan'),
+                  _buildSectionTitle('Help'),
                   const SizedBox(height: 8),
                   _buildMenuCard(context, [
                     {
                       'icon': HugeIcons.strokeRoundedHelpCircle,
-                      'title': 'Pusat Bantuan',
+                      'title': 'Help Center',
                     },
                   ]),
                   const SizedBox(height: 20),
@@ -256,7 +259,7 @@ class ProfileView extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Keluar',
+                            'Logout',
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,

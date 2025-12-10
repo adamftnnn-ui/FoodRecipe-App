@@ -2,17 +2,10 @@ import '../models/recipe_model.dart';
 import '../services/api_service.dart';
 
 class DetailRecipeController {
-  /// Recipe utama yang dipakai untuk header (judul, gambar, waktu, dsb).
   RecipeModel recipe;
-
-  /// Menandakan apakah detail sudah dimuat (untuk API).
   bool isLoaded = false;
 
-  /// Kalau ini resep buatan user ("Resepku"), field-field lengkapnya
-  /// disimpan di sini sebagai map.
   final Map<String, dynamic>? _localRecipe;
-
-  /// True jika data berasal dari resep lokal (Resepku), bukan dari API.
   final bool _isLocal;
 
   DetailRecipeController({required dynamic recipeData})
@@ -30,38 +23,25 @@ class DetailRecipeController {
               recipeData['nutritions'] != null)),
       recipe = _initRecipe(recipeData);
 
-  /// Normalisasi data awal menjadi RecipeModel
   static RecipeModel _initRecipe(dynamic data) {
-    // 1. Kalau sudah RecipeModel (mis. dari Trending) → pakai langsung
     if (data is RecipeModel) {
       return data;
     }
 
-    // 2. Kalau Map, coba ambil original_data / original dari repository
     if (data is Map<String, dynamic>) {
       final dynamic original = data['original_data'] ?? data['original'];
 
       if (original is Map<String, dynamic>) {
-        // Map lengkap dari API (punya extendedIngredients, dll)
         return RecipeModel.fromMap(original);
       }
 
-      // Untuk resep lokal ("Resepku"), key seperti title, image, dsb
-      // tetap bisa dibaca oleh RecipeModel.fromMap sebisanya.
       return RecipeModel.fromMap(data);
     }
 
-    // 3. Fallback aman
     return RecipeModel.fromMap(null);
   }
 
-  /// Ambil detail terbaru dari API berdasarkan recipe.id
-  ///
-  /// UNTUK RESEP LOKAL:
-  /// - Tidak memanggil API sama sekali
-  /// - Data full diambil dari _localRecipe
   Future<void> fetchRecipeFromApi() async {
-    // 🔹 Mode Resepku → tidak perlu fetch API
     if (_isLocal) {
       isLoaded = true;
       return;
@@ -69,7 +49,6 @@ class DetailRecipeController {
 
     final int id = recipe.id;
     if (id == 0) {
-      // Tidak ada id valid, cukup pakai data lokal saja
       return;
     }
 
@@ -77,12 +56,9 @@ class DetailRecipeController {
     if (data != null) {
       recipe = RecipeModel.fromMap(data);
       isLoaded = true;
-    } else {
-      // Gagal fetch, biarkan pakai data lokal
     }
   }
 
-  /// Bahan-bahan
   List<String> getIngredients() {
     if (_isLocal) {
       final List<dynamic> raw =
@@ -95,7 +71,6 @@ class DetailRecipeController {
     return recipe.ingredients;
   }
 
-  /// Langkah-langkah
   List<String> getInstructions() {
     if (_isLocal) {
       final List<dynamic> raw =
@@ -108,10 +83,6 @@ class DetailRecipeController {
     return recipe.instructions;
   }
 
-  /// Nutrisi
-  ///
-  /// - Untuk API: pakai Map<String,String> dari RecipeModel.
-  /// - Untuk Resepku: konversi List<Map{label,value}> menjadi Map<String,String>
   Map<String, String> getNutrition() {
     if (_isLocal) {
       final List<dynamic> raw =

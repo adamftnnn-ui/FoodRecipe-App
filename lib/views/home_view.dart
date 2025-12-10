@@ -53,12 +53,20 @@ class _HomeViewState extends State<HomeView> {
         _homeController.fetchTrendingRecipes(),
         _homeController.fetchEvents(),
       ]);
+
+      final fetchedUser = results[0] as UserModel;
+
       setState(() {
-        _user = results[0] as UserModel;
+        _user = fetchedUser;
         _suggestions = results[1] as List<String>;
         _trendingRecipes = results[2] as List<RecipeModel>;
         _events = results[3] as List<EventModel>;
         _isLoading = false;
+      });
+
+      profileController.updateUser({
+        'name': fetchedUser.name,
+        'avatarUrl': fetchedUser.avatarUrl,
       });
     } catch (e) {
       setState(() {
@@ -117,7 +125,6 @@ class _HomeViewState extends State<HomeView> {
       return Scaffold(body: Center(child: Text('Error: $_error')));
     }
 
-    // PAGES sekarang dibangun di sini, menggunakan data state TERBARU
     final pages = [
       HomeContent(
         user: _user,
@@ -138,7 +145,7 @@ class _HomeViewState extends State<HomeView> {
             MaterialPageRoute(
               builder: (_) => RecipeListView(
                 initialKeyword: '',
-                title: 'Daftar Resepku',
+                title: 'My Recipes',
                 recipes: profileController.userRecipes.value,
                 showDelete: true,
                 profileController: profileController,
@@ -162,25 +169,25 @@ class _HomeViewState extends State<HomeView> {
           children: [
             _buildNavItem(
               iconData: HugeIcons.strokeRoundedHome01,
-              label: 'Beranda',
+              label: 'Home',
               isActive: _selectedIndex == 0,
               onTap: () => _onItemTapped(0),
             ),
             _buildNavItem(
               iconData: HugeIcons.strokeRoundedAddSquare,
-              label: 'Buat Resep',
+              label: 'Create',
               isActive: _selectedIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
             _buildNavItem(
               iconData: HugeIcons.strokeRoundedBubbleChat,
-              label: 'Obrolan',
+              label: 'Chat',
               isActive: _selectedIndex == 2,
               onTap: () => _onItemTapped(2),
             ),
             _buildNavItem(
               iconData: HugeIcons.strokeRoundedUser,
-              label: 'Profil',
+              label: 'Profile',
               isActive: _selectedIndex == 3,
               onTap: () => _onItemTapped(3),
             ),
@@ -221,7 +228,7 @@ class HomeContent extends StatelessWidget {
           ),
           const CategoryWidget(),
           SearchBarr(
-            placeholder: 'Cari resep atau bahan...',
+            placeholder: 'Search recipes or ingredients...',
             enableNavigation: true,
             padding: const EdgeInsets.fromLTRB(20, 6, 20, 8),
           ),

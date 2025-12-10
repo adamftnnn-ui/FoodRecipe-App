@@ -1,41 +1,34 @@
 import '../models/event_model.dart';
 import '../services/api_service.dart';
 
-/// Repository untuk "event" yang tampil di beranda.
-///
-/// Setiap event adalah semacam kampanye/koleksi resep
-/// (misal: Spesial Ramadan, Menu Akhir Pekan, dll).
-/// Di sini kita kombinasikan:
-///  - konfigurasi lokal (judul, warna, query),
-///  - data real-time dari Spoonacular (jumlah resep).
 class EventRepository {
-List<EventModel>? _eventCache;
+  List<EventModel>? _eventCache;
 
   Future<List<EventModel>> fetchEvents() async {
     if (_eventCache != null) return _eventCache!;
 
     final List<Map<String, dynamic>> configs = <Map<String, dynamic>>[
       <String, dynamic>{
-        'title': 'Spesial Ramadan',
-        'subtitlePrefix': 'Koleksi masakan khas Middle Eastern',
+        'title': 'Special Ramadan',
+        'subtitlePrefix': 'Middle Eastern special collection',
         'query': 'middle eastern',
         'colorValue': 0xFFFFF8E1,
       },
       <String, dynamic>{
-        'title': 'Menu Akhir Pekan',
-        'subtitlePrefix': 'Comfort food untuk santai akhir pekan',
+        'title': 'Weekend Menu',
+        'subtitlePrefix': 'Comfort food for your weekend',
         'query': 'comfort food',
         'colorValue': 0xFFE3F2FD,
       },
       <String, dynamic>{
-        'title': 'Sehat & Diet',
-        'subtitlePrefix': 'Pilihan menu sehat & rendah kalori',
+        'title': 'Healthy & Diet',
+        'subtitlePrefix': 'Healthy and low-calorie options',
         'query': 'healthy',
         'colorValue': 0xFFE8F5E9,
       },
       <String, dynamic>{
-        'title': 'Cepat & Praktis',
-        'subtitlePrefix': 'Resep siap saji untuk hari sibuk',
+        'title': 'Quick & Practical',
+        'subtitlePrefix': 'Ready-to-serve recipes for busy days',
         'query': 'quick',
         'colorValue': 0xFFFFEBEE,
       },
@@ -47,7 +40,6 @@ List<EventModel>? _eventCache;
       final String query = cfg['query'] as String;
       final String subtitlePrefix = cfg['subtitlePrefix'] as String;
 
-      // Panggil API untuk mengetahui total resep yang tersedia untuk query ini.
       try {
         final Map<String, dynamic>? result = await ApiService.getData(
           'recipes/complexSearch'
@@ -58,7 +50,7 @@ List<EventModel>? _eventCache;
         final int totalResults = (result?['totalResults'] as int?) ?? 0;
 
         final String subtitle = totalResults > 0
-            ? '$subtitlePrefix • $totalResults+ resep tersedia'
+            ? '$subtitlePrefix • $totalResults+ recipes available'
             : subtitlePrefix;
 
         events.add(
@@ -70,8 +62,6 @@ List<EventModel>? _eventCache;
           ),
         );
       } catch (_) {
-        // Jika terjadi error jaringan, gunakan subtitle default saja,
-        // sehingga UI tetap tampil dan aplikasi tidak crash.
         events.add(
           EventModel(
             title: cfg['title'] as String,
@@ -83,6 +73,7 @@ List<EventModel>? _eventCache;
       }
     }
 
+    _eventCache = events;
     return events;
   }
 }

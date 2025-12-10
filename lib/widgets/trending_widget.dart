@@ -20,7 +20,7 @@ class TrendingWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Resep Trending",
+                'Trending Recipes',
                 style: GoogleFonts.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -30,7 +30,6 @@ class TrendingWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // ✅ ubah List<RecipeModel> → List<Map<String, dynamic>>
                   final mapped = recipes.map((r) {
                     return {
                       'id': r.id,
@@ -50,14 +49,14 @@ class TrendingWidget extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (_) => RecipeListView(
                         initialKeyword: '',
-                        title: 'Resep Trending',
+                        title: 'Trending Recipes',
                         recipes: mapped,
                       ),
                     ),
                   );
                 },
                 child: Text(
-                  "Lihat semua",
+                  'See all',
                   style: GoogleFonts.poppins(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -79,7 +78,7 @@ class TrendingWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = recipes[index];
                 return RecipeCard(
-                  recipe: item, // biar Detail pakai RecipeModel
+                  recipe: item,
                   image: item.image,
                   title: item.title,
                   isHalal: item.isHalal,

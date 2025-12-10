@@ -86,22 +86,17 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
       'isHalal': widget.controller.isHalal,
       'readyInMinutes': widget.controller.time,
       'servings': widget.controller.serving,
-
-      // PENTING: copy list, jangan referensi langsung
       'ingredients': List<String>.from(widget.controller.ingredients),
       'steps': List<String>.from(widget.controller.steps),
       'nutritions': List<Map<String, String>>.from(
         widget.controller.nutritions,
       ),
-
       'image': _selectedImage ?? '',
     };
 
     if (widget.isEditMode && widget.editIndex != null) {
-      // 🔹 UPDATE resep lama di ProfileController
       widget.profileController.updateRecipeAt(widget.editIndex!, recipe);
     } else {
-      // 🔹 CREATE resep baru
       widget.profileController.addRecipe(recipe);
     }
 
@@ -109,13 +104,12 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
       SnackBar(
         content: Text(
           widget.isEditMode
-              ? 'Resep berhasil diperbarui!'
-              : 'Resep berhasil diposting!',
+              ? 'Recipe updated successfully!'
+              : 'Recipe posted successfully!',
         ),
       ),
     );
 
-    // Reset controller & state lokal (optional, biar bersih)
     widget.controller.clearAll();
     setState(() {
       _titleC.clear();
@@ -130,25 +124,18 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
     });
 
     if (widget.isEditMode) {
-      // 🔻 MODE EDIT:
-      // ganti halaman Edit dengan Detail Resep yang baru di-update
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (_) => DetailRecipeView(
-            controller: DetailRecipeController(
-              recipeData: recipe, // kirim map hasil edit
-            ),
+            controller: DetailRecipeController(recipeData: recipe),
           ),
         ),
       );
     } else {
-      // 🔻 MODE CREATE:
-      // tetap pakai flow lama → parent (HomeView) yang direct ke Profil → Resepku
       widget.onRecipePosted?.call();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +172,7 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
                   ),
                   const SizedBox(width: 16),
                   Text(
-                    widget.isEditMode ? 'Edit Resep' : 'Buat Resep',
+                    widget.isEditMode ? 'Edit Recipe' : 'Create Recipe',
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -202,9 +189,7 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
                 selectedCountry: _selectedCountry,
                 isHalal: _isHalal,
                 selectedImage: _selectedImage,
-                onImageTap: () {
-                  // TODO: implementasi pilih gambar (opsional)
-                },
+                onImageTap: () {},
                 onCountryChanged: (v) {
                   setState(() => _selectedCountry = v);
                   widget.controller.setCountry(v ?? '');
@@ -219,7 +204,7 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
               ),
               const SizedBox(height: 20),
               MultiLineSection(
-                title: 'Bahan-bahan',
+                title: 'Ingredients',
                 items: _ingredients,
                 bullet: true,
                 onAdd: (lines) {
@@ -229,7 +214,7 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
               ),
               const SizedBox(height: 20),
               MultiLineSection(
-                title: 'Langkah-langkah',
+                title: 'Steps',
                 items: _steps,
                 isNumbered: true,
                 onAdd: (lines) {
@@ -256,7 +241,7 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
                 child: ElevatedButton(
                   onPressed: _postRecipe,
                   child: Text(
-                    widget.isEditMode ? 'Perbarui Resep' : 'Posting Resep',
+                    widget.isEditMode ? 'Update Recipe' : 'Post Recipe',
                   ),
                 ),
               ),

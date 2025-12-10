@@ -63,23 +63,18 @@ class _SearchViewState extends State<SearchView> {
 
       if (!mounted) return;
 
-      // ⛔ HAPUS pemanggilan _SearchControllerrLogic.searchRecipes di sini
-      // final recipes = await _SearchControllerrLogic.searchRecipes(keyword);
-
-      // ✅ Langsung navigasi, biarkan RecipeListView yang fetch ke API via repository
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RecipeListView(
-            initialKeyword: keyword,
-            // recipes: recipes,  // ⛔ HAPUS param ini
-          ),
+          builder: (context) => RecipeListView(initialKeyword: keyword),
         ),
       );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Terjadi kesalahan saat mencari resep: $e')),
+          SnackBar(
+            content: Text('An error occurred while searching recipes: $e'),
+          ),
         );
       }
     } finally {
@@ -132,7 +127,7 @@ class _SearchViewState extends State<SearchView> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Pencarian',
+                        'Search',
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -151,7 +146,7 @@ class _SearchViewState extends State<SearchView> {
               enableNavigation: false,
               onSubmitted: _handleSearch,
               padding: const EdgeInsets.fromLTRB(20, 6, 20, 8),
-              placeholder: 'Cari resep atau bahan',
+              placeholder: 'Search recipes or ingredients',
             ),
             if (_isLoading)
               LinearProgressIndicator(
@@ -167,7 +162,7 @@ class _SearchViewState extends State<SearchView> {
               child: _history.isEmpty
                   ? Center(
                       child: Text(
-                        'Tidak ada riwayat pencarian.',
+                        'No search history.',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           color: Colors.grey[500],
@@ -184,7 +179,7 @@ class _SearchViewState extends State<SearchView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Terbaru',
+                                'Recent',
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -194,7 +189,7 @@ class _SearchViewState extends State<SearchView> {
                               GestureDetector(
                                 onTap: () {},
                                 child: Text(
-                                  'Lihat Semua',
+                                  'View All',
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -257,7 +252,7 @@ class _SearchViewState extends State<SearchView> {
                             child: GestureDetector(
                               onTap: _clearHistory,
                               child: Text(
-                                'Hapus Riwayat',
+                                'Clear History',
                                 style: GoogleFonts.poppins(
                                   fontSize: 14.5,
                                   color: Colors.red[500],

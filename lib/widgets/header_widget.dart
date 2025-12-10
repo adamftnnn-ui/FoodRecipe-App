@@ -18,7 +18,7 @@ class HeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Halo, ${user.name}',
+                'Hello, ${user.name}',
                 style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -27,7 +27,7 @@ class HeaderWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                'Hari ini mau masak apa?',
+                'What do you want to cook today?',
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

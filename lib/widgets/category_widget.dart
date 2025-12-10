@@ -12,11 +12,11 @@ class CategoryWidget extends StatelessWidget {
         return HugeIcons.strokeRoundedHalal;
       case 'Diet':
         return HugeIcons.strokeRoundedHealth;
-      case 'Hidangan':
+      case 'Dish':
         return HugeIcons.strokeRoundedPlate;
-      case 'Acara':
+      case 'Occasion':
         return HugeIcons.strokeRoundedSpoonAndFork;
-      case 'Negara':
+      case 'Country':
         return HugeIcons.strokeRoundedEarth;
       default:
         return HugeIcons.strokeRoundedCircle;
@@ -25,7 +25,7 @@ class CategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = ['Halal', 'Diet', 'Hidangan', 'Acara', 'Negara'];
+    final categories = ['Halal', 'Diet', 'Dish', 'Occasion', 'Country'];
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 10),

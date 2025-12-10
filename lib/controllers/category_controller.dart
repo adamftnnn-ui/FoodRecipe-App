@@ -19,6 +19,7 @@ class CategoryController {
         items: _getCategoryItems(title),
         onSelected: (value) async {
           Navigator.pop(context);
+
           if (title == 'Halal') {
             final query = value.toLowerCase() == 'halal' ? 'halal' : '';
             Navigator.push(
@@ -35,6 +36,7 @@ class CategoryController {
               ),
             );
           }
+
           if (onSelected != null) onSelected(value);
         },
       ),
@@ -45,14 +47,19 @@ class CategoryController {
     switch (title) {
       case 'Halal':
         return ['Halal', 'Non-Halal'];
+
       case 'Diet':
         return ['Vegetarian', 'Vegan', 'Keto'];
-      case 'Hidangan':
-        return ['Utama', 'Pembuka', 'Penutup'];
-      case 'Acara':
-        return ['Ulang Tahun', 'Ramadhan', 'Natal'];
-      case 'Negara':
-        return ['Indonesia', 'Malaysia', 'Thailand', 'Vietnam', 'Jepang'];
+
+      case 'Dish':
+        return ['Main Course', 'Appetizer', 'Dessert'];
+
+      case 'Event':
+        return ['Birthday', 'Ramadan', 'Christmas'];
+
+      case 'Country':
+        return ['Indonesia', 'Malaysia', 'Thailand', 'Vietnam', 'Japan'];
+
       default:
         return [];
     }

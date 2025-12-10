@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Resep Masakan',
+      title: 'Cooking Recipes',
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(),
         primaryColor: Colors.green[500],

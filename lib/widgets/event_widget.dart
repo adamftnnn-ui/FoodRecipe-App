@@ -20,7 +20,7 @@ class EventWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Rekomendasi',
+            'Recommendation',
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -108,7 +108,7 @@ class EventWidget extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
-                                      'Lihat Semua',
+                                      'See All',
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class EventWidget extends StatelessWidget {
                                       color: const Color(0xFFF4F6F8),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'Belum ada gambar',
+                                        'No image',
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           color: Colors.grey[500],
@@ -157,7 +157,7 @@ class EventWidget extends StatelessWidget {
                                   color: const Color(0xFFF4F6F8),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Belum ada gambar',
+                                    'No image',
                                     style: GoogleFonts.poppins(
                                       fontSize: 12,
                                       color: Colors.grey[500],

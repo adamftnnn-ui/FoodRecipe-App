@@ -19,7 +19,7 @@ class EventModel {
       subtitle: (json['subtitle'] as String?) ?? '',
       image: (json['image'] as String?) ?? '',
       colorValue: json['colorValue'] is int
-          ? json['colorValue'] as int
+          ? json['colorValue']
           : int.tryParse(json['colorValue']?.toString() ?? '') ?? 0xFFFFF8E1,
     );
   }

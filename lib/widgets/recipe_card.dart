@@ -58,7 +58,7 @@ class RecipeCard extends StatelessWidget {
         color: Colors.grey[50],
         alignment: Alignment.center,
         child: Text(
-          'Belum ada gambar',
+          'No image yet',
           style: GoogleFonts.poppins(
             fontSize: 11,
             color: Colors.grey[500],
@@ -128,7 +128,7 @@ class RecipeCard extends StatelessWidget {
                 if (showDelete)
                   Positioned(
                     top: 8,
-                    right: showEdit ? 40 : 8, // <--- Jarak diperlebar (dulu 32)
+                    right: showEdit ? 40 : 8,
                     child: GestureDetector(
                       onTap: onDelete,
                       child: Container(
@@ -146,11 +146,10 @@ class RecipeCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (showEdit)
                   Positioned(
                     top: 8,
-                    right: 8, // <--- Tetap 8, tapi delete digeser
+                    right: 8,
                     child: GestureDetector(
                       onTap: onEdit,
                       child: Container(

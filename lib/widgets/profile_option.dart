@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ProfileOption extends StatelessWidget {
-  /// items: [
-  ///   {'icon': Icons.person, 'title': 'Akun', 'onTap': () {}},
-  /// ]
   final List<Map<String, dynamic>> items;
 
   const ProfileOption({super.key, required this.items});

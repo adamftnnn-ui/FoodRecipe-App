@@ -18,8 +18,7 @@ class ChatController {
         avatarUrl: assistantAvatar,
         name: assistantName,
         role: 'Assistant',
-        message:
-            'Halo $userName, apa yang ingin kamu tanyakan atau masak hari ini?',
+        message: 'Hello $userName, what would you like to ask or cook today?',
         time: TimeOfDay.now().format(context),
         isAssistant: true,
       ),
@@ -49,7 +48,6 @@ class ChatController {
     chatsNotifier.value = [...chatsNotifier.value, message];
   }
 
-  /// Dipanggil dari UI setiap kali user menekan tombol kirim.
   Future<void> getAssistantReply(
     String userMessage,
     BuildContext context,
@@ -81,7 +79,7 @@ class ChatController {
         await _fetchConverseReply(userMessage, context);
       }
     } catch (e) {
-      addAssistantMessage('Maaf, terjadi kesalahan.', context);
+      addAssistantMessage('Sorry, an error occurred.', context);
     }
   }
 
@@ -91,13 +89,14 @@ class ChatController {
 
       if (detail == null) {
         addAssistantMessage(
-          'Maaf, saya tidak menemukan resep untuk "$userMessage".',
+          'Sorry, I could not find a recipe for "$userMessage".',
           context,
         );
         return;
       }
 
-      final String title = (detail['title'] ?? 'Resep Tanpa Judul').toString();
+      final String title = (detail['title'] ?? 'Unnamed Recipe').toString();
+
       final dynamic readyRaw = detail['readyInMinutes'];
       final String ready = (readyRaw == null || readyRaw.toString().isEmpty)
           ? '-'
@@ -120,7 +119,6 @@ class ChatController {
           .where((s) => s.isNotEmpty)
           .toList();
 
-      // Ambil instructions kalau ada, kalau tidak pakai summary
       String instructions = (detail['instructions'] ?? detail['summary'] ?? '')
           .toString()
           .trim();
@@ -130,23 +128,23 @@ class ChatController {
       }
 
       String reply =
-          '**$title**\nPorsi: $servings\nWaktu masak: $ready menit\n';
+          '**$title**\nServings: $servings\nCooking Time: $ready minutes\n';
 
       if (ingredients.isNotEmpty) {
-        reply += '\nBahan:\n';
+        reply += '\nIngredients:\n';
         for (final ing in ingredients) {
           reply += '- $ing\n';
         }
       }
 
       if (instructions.isNotEmpty) {
-        reply += '\nLangkah:\n$instructions';
+        reply += '\nSteps:\n$instructions';
       }
 
       addAssistantMessage(reply.trim(), context);
     } catch (e) {
       addAssistantMessage(
-        'Maaf, terjadi kesalahan saat mengambil resep.',
+        'Sorry, an error occurred while fetching the recipe.',
         context,
       );
     }
@@ -160,11 +158,10 @@ class ChatController {
       final replyText = await repository.getConverseReply(userMessage);
       addAssistantMessage(replyText, context);
     } catch (e) {
-      addAssistantMessage('Maaf, terjadi kesalahan pada AI.', context);
+      addAssistantMessage('Sorry, an error occurred.', context);
     }
   }
 
-  /// Utility sederhana untuk menghapus tag HTML dari teks (summary/instructions).
   String _stripHtml(String html) {
     return html.replaceAll(RegExp(r'<[^>]*>'), '').trim();
   }

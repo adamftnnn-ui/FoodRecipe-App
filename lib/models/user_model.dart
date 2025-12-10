@@ -6,8 +6,8 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      name: (json['name'] as String?) ?? 'User',
-      avatarUrl: (json['avatarUrl'] as String?) ?? '',
+      name: json['name'] ?? 'User',
+      avatarUrl: json['avatarUrl'] ?? '',
     );
   }
 
